@@ -685,12 +685,14 @@ gst_opensles_ringbuffer_new (RingBufferMode mode)
       thiz->pause = _opensles_recorder_stop;
       thiz->stop = _opensles_recorder_stop;
       thiz->change_volume = NULL;
+      thiz->change_mute = NULL;
     } else if (mode == RB_MODE_SINK_PCM) {
       thiz->acquire = _opensles_player_acquire;
       thiz->start = _opensles_player_start;
       thiz->pause = _opensles_player_pause;
       thiz->stop = _opensles_player_stop;
       thiz->change_volume = _opensles_player_change_volume;
+      thiz->change_mute = _opensles_player_change_mute;
     }
   }
 
