@@ -157,14 +157,6 @@ _opensles_recorder_acquire (GstAudioRingBuffer * rb,
 
     if (result == SL_RESULT_SUCCESS) {
       result = (*config)->SetConfiguration (config,
-          SL_ANDROID_KEY_RECORDING_PRESET, &preset, sizeof (preset));
-
-      if (result != SL_RESULT_SUCCESS) {
-        GST_WARNING_OBJECT (thiz, "Failed to set playback stream type (0x%08x)",
-            (guint32) result);
-      }
-
-      result = (*config)->SetConfiguration (config,
           SL_ANDROID_KEY_PERFORMANCE_MODE, &performanceMode, sizeof (performanceMode));
 
       if (result != SL_RESULT_SUCCESS) {
@@ -172,6 +164,14 @@ _opensles_recorder_acquire (GstAudioRingBuffer * rb,
             (guint32) result);
       } else {
         GST_WARNING_OBJECT (thiz, "LT successfully disabled fast mode!");
+      }
+
+      result = (*config)->SetConfiguration (config,
+          SL_ANDROID_KEY_RECORDING_PRESET, &preset, sizeof (preset));
+
+      if (result != SL_RESULT_SUCCESS) {
+        GST_WARNING_OBJECT (thiz, "Failed to set playback stream type (0x%08x)",
+            (guint32) result);
       }
     } else {
       GST_WARNING_OBJECT (thiz,
