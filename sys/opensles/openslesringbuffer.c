@@ -150,6 +150,7 @@ _opensles_recorder_acquire (GstAudioRingBuffer * rb,
   /* Set the recording preset if we have one */
   if (thiz->preset != GST_OPENSLES_RECORDING_PRESET_NONE) {
     SLint32 preset = gst_to_opensles_recording_preset (thiz->preset);
+    SLuint32 performanceMode = SL_ANDROID_PERFORMANCE_NONE;
 
     result = (*thiz->recorderObject)->GetInterface (thiz->recorderObject,
         SL_IID_ANDROIDCONFIGURATION, &config);
@@ -160,6 +161,14 @@ _opensles_recorder_acquire (GstAudioRingBuffer * rb,
 
       if (result != SL_RESULT_SUCCESS) {
         GST_WARNING_OBJECT (thiz, "Failed to set playback stream type (0x%08x)",
+            (guint32) result);
+      }
+
+      result = (*config)->SetConfiguration (config,
+          SL_ANDROID_KEY_PERFORMANCE_MODE, &performanceMode, sizeof (performanceMode));
+
+      if (result != SL_RESULT_SUCCESS) {
+        GST_WARNING_OBJECT (thiz, "Failed to disable performance flags (0x%08x)",
             (guint32) result);
       }
     } else {
