@@ -170,6 +170,8 @@ _opensles_recorder_acquire (GstAudioRingBuffer * rb,
       if (result != SL_RESULT_SUCCESS) {
         GST_WARNING_OBJECT (thiz, "Failed to disable performance flags (0x%08x)",
             (guint32) result);
+      } else {
+        GST_WARNING_OBJECT (thiz, "LT successfully disabled fast mode!");
       }
     } else {
       GST_WARNING_OBJECT (thiz,
